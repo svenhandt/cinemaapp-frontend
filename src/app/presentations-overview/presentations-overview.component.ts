@@ -1,16 +1,17 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { PresentationsOverviewService } from '../presentations-overview.service';
+import { PresentationsService } from '../presentations.service';
 import { Film } from '../models/film.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-presentations-overview',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './presentations-overview.component.html',
   styleUrl: './presentations-overview.component.css'
 })
 export class PresentationsOverviewComponent {
 
-  private presentationsOverviewService = inject(PresentationsOverviewService)
+  private presentationsService = inject(PresentationsService)
   private destroyRef = inject(DestroyRef)
   
   isFetching = signal(false)
@@ -19,7 +20,7 @@ export class PresentationsOverviewComponent {
 
   ngOnInit() {
     this.isFetching.set(true)
-    const subscription = this.presentationsOverviewService.loadFilms()
+    const subscription = this.presentationsService.loadFilms()
       .subscribe({
         next: (loadedFilms) => {
           this.loadedFilms.set(loadedFilms)

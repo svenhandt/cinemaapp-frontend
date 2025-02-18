@@ -2,14 +2,12 @@ import { Injectable, signal } from '@angular/core';
 import { Film } from './models/film.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { catchError, tap, throwError } from 'rxjs';
+import { Presentation } from './models/presentation.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PresentationsOverviewService {
-
-  private loadedFilms = signal<Film[]>([])
+export class PresentationsService {
 
   constructor(private httpClient: HttpClient) { }
 
@@ -17,11 +15,12 @@ export class PresentationsOverviewService {
     const url = environment.backendUrl + '/presentations'
     return this.httpClient
           .get<Film[]>(url, {})
-          .pipe(
-              tap({
-                next: (loadedFilms) => this.loadedFilms.set(loadedFilms)
-              }) 
-          )
+  }
+
+  loadPresentationDetails(id: string) {
+    const url = environment.backendUrl + `/presentations/${id}`
+    return this.httpClient
+          .get<Presentation>(url, {})
   }
 
 }
