@@ -8,34 +8,54 @@
         }
         @else if (presentation()) {
             <h4>{{getPresentationInfo()}}</h4>
-            <table class="table table-borderless">
-
-            </table>
-            <!--
-            @for (film of loadedFilms(); track $index) {
-                <h3>{{film.name}}</h3>
-                <br/>
-                <table class="table table-bordered w-75 mx-auto">
-                    <thead>
-                        <tr>
-                            @for (presentationsPerDay of film.presentationsPerDay; track $index) {
-                                <th scope="col">{{presentationsPerDay.dayOfWeek}}</th>
-                            }
-                        </tr>
-                        <tr>
-                            @for (presentationsPerDay of film.presentationsPerDay; track $index) {
-                                <td class="align-text-top">
-                                    @for (presentation of presentationsPerDay.presentations; track $index) {
-                                        <a [routerLink]="['/presentation', presentation.id]">{{presentation.startTime}}</a><br/>
+            <br/>
+            <br/>
+            <br/>
+            <table class="table table-borderless mx-auto">
+                @for (seatRow of getSeatRows(); track $index) {
+                    <tr>
+                        @for (seat of seatRow.seats; track $index) {
+                            <td class="align-center">
+                                <div class="form-check">
+                                    @if (seat.status === 'AVAILABLE') {
+                                        <input class="form-check-input" 
+                                        type="checkbox" 
+                                        [id]="seat.id"
+                                        (change)="onChangeCheckbox($event, seat.id)"/>
                                     }
-                                </td>
-                            }
-                        </tr>
-                    </thead>
-                </table>
-                <br/>
-            }
-            -->
+                                    @else if (seat.status === 'OCCUPPIED') {
+                                        <input class="form-check-input" 
+                                            type="checkbox" 
+                                            [id]="seat.id" disabled/>
+                                    }
+                                    @else {
+                                        <span></span>
+                                    }
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+            <br/>
+            <br/>
+            <br/>
+            <hr/>
         }
+    </div>
+    <div class="row">
+        <div class="col-1">
+            <button type="button" class="btn btn-secondary" (click)="onBackButtonClick()">Zurück</button>
+        </div>
+        <div class=" col-11 d-flex justify-content-end">
+            @if (currentTotalPrice() > 0) {
+                <span class="fs-4 price-span">Preis: {{currentTotalPrice() | currency: 'EUR': 'symbol': undefined: 'de'}}</span>&nbsp;
+            }
+            @else {
+                <span class="fs-4 price-span">Preis: </span>
+            }
+            &nbsp;
+            <button type="button" class="continue btn btn-primary" [disabled]="currentTotalPrice() === 0">Weiter</button>
+        </div>
     </div>
 </div>

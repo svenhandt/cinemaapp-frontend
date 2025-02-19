@@ -10,7 +10,7 @@
             @for (film of loadedFilms(); track $index) {
                 <h3>{{film.name}}</h3>
                 <br/>
-                <table class="table table-bordered w-75 mx-auto">
+                <table class="table table-bordered mx-auto">
                     <thead>
                         <tr>
                             @for (presentationsPerDay of film.presentationsPerDay; track $index) {

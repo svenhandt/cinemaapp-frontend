@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { PresentationsService } from '../presentations.service';
 import { Film } from '../models/film.model';
 import { RouterLink } from '@angular/router';
+import { Seat } from '../models/seat.model';
 
 @Component({
   selector: 'app-presentations-overview',
@@ -19,6 +20,7 @@ export class PresentationsOverviewComponent {
   loadedFilms = signal<Film[]>([])
 
   ngOnInit() {
+    localStorage.removeItem('bookingInfo')
     this.isFetching.set(true)
     const subscription = this.presentationsService.loadFilms()
       .subscribe({
