@@ -1,1 +1,55 @@
-<p>booking-form works!</p>
+<div class="row">
+    <div class="col text-center justify-content-center">
+        <h4>{{presentationInfo()}}</h4>
+        <br/>
+        <br/>
+        <h5>Ihre ausgewählten Plätze</h5>
+        <br/>
+        @for (selectedSeat of selectedSeats(); track $index) {
+            <p>{{selectedSeat.seatInfo}}</p>
+        }
+        <br/>
+        <h5>Preis: {{totalPrice() | currency: 'EUR': 'symbol': undefined: 'de'}}</h5>
+        <br/>
+    </div>
+    <hr/>
+    <div class="text-center justify-content-center">
+        <br/>
+        <h5>Bitte machen Sie Ihre Eingaben</h5>
+        <br/>
+    </div>
+    <div class="justify-content-center">
+        <form class="w-50 mx-auto">
+            <div class="form-group">
+                <label for="customername">Name</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="customername" 
+                    name="customername"
+                    placeholder="Bitte Namen eingeben">
+            </div>
+            <br/>
+            <div class="form-group">
+                <label for="cardnumber">Kreditkartennummer</label>
+                <input type="text" 
+                    class="form-control" 
+                    id="cardnumber" 
+                    name="cardnumber"
+                    placeholder="Bitte Kreditkartennummer eingeben">
+            </div>
+            <br/>
+            <div class="form-group">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Dropdown button
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

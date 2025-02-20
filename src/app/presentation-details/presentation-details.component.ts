@@ -4,6 +4,7 @@ import { Presentation } from '../models/presentation.model';
 import { SeatRow } from '../models/seat-row.model';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { Seat } from '../models/seat.model';
 
 @Component({
   selector: 'app-presentation-details',
@@ -24,10 +25,9 @@ export class PresentationDetailsComponent {
   presentation = signal<Presentation|null>(null)
 
   currentTotalPrice = signal<number>(0)
-  selectedSeatIds: string[] = []
+  private selectedSeats: Seat[] = []
 
   ngOnInit() {
-    localStorage.removeItem('bookingInfo')
     this.isFetching.set(true)
     const subscription = this.presentationsService.loadPresentationDetails(this.presentationId())
     .subscribe({
@@ -66,14 +66,14 @@ export class PresentationDetailsComponent {
     return result
   }
 
-  onChangeCheckbox(event: any, seatId: string) {
-    console.log(seatId)
+  onChangeCheckbox(event: any, seat: Seat) {
     if(event.target.checked) {
-      this.addSelectedSeatAndCalculate(seatId)
+      this.addSelectedSeatAndCalculate(seat)
     }
     else {
-      this.removeSeatAndCalculate(seatId)
+      this.removeSeatAndCalculate(seat)
     }
+    console.log(this.selectedSeats)
   }
 
   onBackButtonClick() {
@@ -84,26 +84,28 @@ export class PresentationDetailsComponent {
     const bookingInfo = {
       presentationId: this.presentation()?.id,
       presentationInfo: this.getPresentationInfo(),
-      seatIds: this.selectedSeatIds
+      totalPrice: this.currentTotalPrice(),
+      seats: this.selectedSeats
     }
     localStorage.setItem('bookingInfo', JSON.stringify(bookingInfo))
+    this.router.navigateByUrl('/booking-form')
   }
 
-  private addSelectedSeatAndCalculate(seatId: string) {
+  private addSelectedSeatAndCalculate(seat: Seat) {
     const presentationPrice = this.presentation()?.price
     if(presentationPrice) {
         const currentTotal = this.currentTotalPrice()
         this.currentTotalPrice.set(currentTotal + presentationPrice)
-        this.selectedSeatIds.push(seatId)
+        this.selectedSeats.push(seat)
     }
   }
 
-  private removeSeatAndCalculate(seatId: string) {
+  private removeSeatAndCalculate(seat: Seat) {
     const presentationPrice = this.presentation()?.price
     if(presentationPrice) {
         const currentTotal = this.currentTotalPrice()
         this.currentTotalPrice.set(currentTotal - presentationPrice)
-        this.selectedSeatIds = this.selectedSeatIds.filter(currentSeatId => currentSeatId !== seatId)
+        this.selectedSeats = this.selectedSeats.filter(currentSeat => currentSeat.id !== seat.id)
     }
   }
 

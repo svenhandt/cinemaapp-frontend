@@ -20,7 +20,6 @@ export class PresentationsOverviewComponent {
   loadedFilms = signal<Film[]>([])
 
   ngOnInit() {
-    localStorage.removeItem('bookingInfo')
     this.isFetching.set(true)
     const subscription = this.presentationsService.loadFilms()
       .subscribe({

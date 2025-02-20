@@ -21,7 +21,7 @@
                                         <input class="form-check-input" 
                                         type="checkbox" 
                                         [id]="seat.id"
-                                        (change)="onChangeCheckbox($event, seat.id)"/>
+                                        (change)="onChangeCheckbox($event, seat)"/>
                                     }
                                     @else if (seat.status === 'OCCUPPIED') {
                                         <input class="form-check-input" 
@@ -55,7 +55,10 @@
                 <span class="fs-4 price-span">Preis: </span>
             }
             &nbsp;
-            <button type="button" class="continue btn btn-primary" [disabled]="currentTotalPrice() === 0">Weiter</button>
+            <button type="button" 
+            class="continue btn btn-primary" 
+            [disabled]="currentTotalPrice() === 0"
+            (click)="onContinueButtonClick()">Weiter</button>
         </div>
     </div>
 </div>
