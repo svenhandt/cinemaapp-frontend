@@ -28,6 +28,7 @@ export class PresentationDetailsComponent {
   private selectedSeats: Seat[] = []
 
   ngOnInit() {
+    localStorage.removeItem('bookingInfo')
     this.isFetching.set(true)
     const subscription = this.presentationsService.loadPresentationDetails(this.presentationId())
     .subscribe({

@@ -2,11 +2,11 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { PresentationsService } from '../presentations.service';
 import { Film } from '../models/film.model';
 import { RouterLink } from '@angular/router';
-import { Seat } from '../models/seat.model';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-presentations-overview',
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './presentations-overview.component.html',
   styleUrl: './presentations-overview.component.css'
 })

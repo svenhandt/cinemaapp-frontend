@@ -1,0 +1,23 @@
+
+select.expiry {
+    min-width: 60px;
+    max-width: 150px;
+}
+
+input.cvv {
+    min-width: 75px;
+    max-width: 200px;
+}
+
+button.continue {
+    width: 150px;
+}
+
+div.error {
+    color: red;
+    font-size: 12px;
+}
+
+input.ng-touched.ng-invalid {
+    border-color: red;
+}

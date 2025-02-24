@@ -18,16 +18,26 @@
         <h5>Bitte machen Sie Ihre Eingaben</h5>
         <br/>
     </div>
-    <div class="justify-content-center">
-        <form class="w-50 mx-auto">
-            <div class="form-group">
+    <form #form="ngForm" 
+        (ngSubmit)="onCompleteBooking(form)"
+        class="w-50 mx-auto needs-validation">
+        <div class="justify-content-center">
+            <div class="form-group has-validation">
                 <label for="customername">Name</label>
                 <input type="text" 
                     class="form-control" 
                     id="customername" 
                     name="customername"
-                    placeholder="Bitte Namen eingeben">
+                    ngModel
+                    required
+                    #customername="ngModel"
+                    placeholder="Bitte Namen eingeben"/>         
             </div>
+            @if(customername.touched && customername.invalid) {
+                <div class="error">
+                    Bitte geben Sie ihren Namen ein.
+                </div>
+            }
             <br/>
             <div class="form-group">
                 <label for="cardnumber">Kreditkartennummer</label>
@@ -35,21 +45,78 @@
                     class="form-control" 
                     id="cardnumber" 
                     name="cardnumber"
+                    ngModel
+                    required
+                    #cardnumber="ngModel"
                     placeholder="Bitte Kreditkartennummer eingeben">
             </div>
+            @if(customername.touched && customername.invalid) {
+                <div class="error">
+                    Bitte geben Sie eine gültige Kreditkartennummer ein.
+                </div>
+            }
             <br/>
-            <div class="form-group">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Dropdown button
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
+            <div class="form-group"
+                name="expirydate"
+                ngModelGroup
+                #expirydate="ngModelGroup">
+                <label for="expirydate">Ablaufdatum</label>
+                <div class="row">
+                    <div class="col col-3">
+                        <select class="form-select expiry" 
+                            aria-label="Monat"
+                            id="month"
+                            name="month"
+                            ngModel
+                            required
+                            #month="ngModel">
+                            @for (month of expiryMonthList(); track $index) {
+                                <option [value]="month">{{month}}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col col-7">
+                        <select class="form-select expiry" 
+                            aria-label="Jahr"
+                            id="year"
+                            name="year"
+                            ngModel
+                            required
+                            #year="ngModel">
+                            @for (year of expiryYearList(); track $index) {
+                                <option [value]="year">{{year}}</option>
+                            }
+                        </select>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+            <br/>
+            <div class="form-group">
+                <label for="cvv">CVV</label>
+                <div class="row">
+                    <div class="col-3">
+                        <input type="text" 
+                            class="form-control cvv" 
+                            id="cvv" 
+                            name="cvv"
+                            ngModel
+                            required
+                            #cvv="ngModel"
+                            placeholder="CVV">
+                    </div>
+                    <div class="col-9 d-flex justify-content-end">
+                        <button type="submit" 
+                        class="continue btn btn-primary continue">Jetzt buchen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+<hr/>
+<div class="col">
+    <button type="button" 
+    class="btn btn-secondary"
+    (click)="onNavigateBack()">Zurück</button>
+</div>
+<br/>
